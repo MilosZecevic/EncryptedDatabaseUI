@@ -1,0 +1,99 @@
+<mat-sidenav-container class="dm-sidenav-container">
+    <mat-sidenav mode="side" opened class="dm-sidenav animate-slide-in">
+        <mat-toolbar>DataLockr</mat-toolbar>
+    </mat-sidenav>
+    <mat-sidenav-content class="dm-main">
+        <mat-toolbar color="primary" class="animate-fade-down">
+            <span class="toolbar-title">DataLockr</span>
+        </mat-toolbar>
+        <div class="dm-content">
+            <mat-card *ngIf="tab==='welcome'" class="dm-card welcome-card animate-fade-up" style="animation-delay:0.2s">
+                <mat-card-header>
+                </mat-card-header>
+                <mat-card-content>
+                    <h4 class="intro-heading">Potpuna zaštita uz brzu pretragu</h4>
+                    <p class="app-intro">
+                        DataLockr kombinuje najsavremenije kriptografske algoritme (AES, RSA, ECC i dr.)
+                        sa brzim indeksiranjem šifrovanih zapisa, omogućavajući vam da čuvate i pretražujete
+                        osetljive informacije bez ugrožavanja bezbednosti.
+                    </p>
+                    <h4 class="section-title">Ključne funkcionalnosti</h4>
+                    <mat-list dense class="feature-list">
+                        <mat-list-item class="feature-item">
+                            <mat-icon matListIcon>vpn_key</mat-icon>
+                            Šifrovanje podataka simetričnim i asimetričnim algoritmima
+                        </mat-list-item>
+                        <mat-list-item class="feature-item">
+                            <mat-icon matListIcon>search</mat-icon>
+                            Brza pretraga šifrovanih zapisa preko indeksa
+                        </mat-list-item>
+                        <mat-list-item class="feature-item">
+                            <mat-icon matListIcon>sync_alt</mat-icon>
+                            Automatsko generisanje IV (inicijalizacionog vektora)
+                        </mat-list-item>
+                        <mat-list-item class="feature-item">
+                            <mat-icon matListIcon>security</mat-icon>
+                            Stroga kontrola pristupa i autentifikacija korisnika
+                        </mat-list-item>
+                    </mat-list>
+                    <h4 class="section-title">Kako početi</h4>
+                    <ol class="getting-started">
+                        <li>Registrujte se ili se prijavite klikom na dugme ispod.</li>
+                        <li>U tabu <strong>Unos</strong> unesite ili uvezite podatke i pregledajte rezultate enkripcije
+                            i dekripcije.</li>
+                    </ol>
+                    <div class="cta-start-wrapper" *ngIf="!showAuthCard">
+                        <button class="btn-primary animate-pulse" (click)="showAuthCard = true">
+                            <mat-icon>login</mat-icon>
+                            Pristupi sistemu
+                        </button>
+                    </div>
+                    <div *ngIf="showAuthCard">
+                        <mat-divider></mat-divider>
+                        <div class="form-container">
+                            <h3 class="section-title">{{ authMode === 'login' ? 'Prijava' : 'Registracija' }}</h3>
+                            <button mat-stroked-button color="primary" class="switch-btn"
+                                (click)="switchAuth(authMode==='login'?'register':'login')">
+                                {{ authMode==='login'
+                                ? 'Nemate nalog? Registrujte se'
+                                : 'Već imate nalog? Prijavite se' }}
+                            </button>
+                            <form #authForm="ngForm" (ngSubmit)="submitAuth(authForm)" class="auth-form">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon matPrefix>person</mat-icon>
+                                    <mat-label>Korisničko ime</mat-label>
+                                    <input matInput name="username" [(ngModel)]="credentials.username" required
+                                        #uCtrl="ngModel">
+                                    <mat-error *ngIf="uCtrl.invalid && uCtrl.touched">Obavezno</mat-error>
+                                </mat-form-field>
+                                <mat-form-field *ngIf="authMode==='register'" appearance="fill">
+                                    <mat-icon matPrefix>email</mat-icon>
+                                    <mat-label>Email</mat-label>
+                                    <input matInput type="email" name="email" [(ngModel)]="credentials.email" required
+                                        #eCtrl="ngModel">
+                                    <mat-error *ngIf="eCtrl.invalid && eCtrl.touched">Obavezno</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                    <mat-icon matPrefix>lock</mat-icon>
+                                    <mat-label>Lozinka</mat-label>
+                                    <input matInput type="password" name="password" [(ngModel)]="credentials.password"
+                                        required #pCtrl="ngModel">
+                                    <mat-error *ngIf="pCtrl.invalid && pCtrl.touched">Obavezno</mat-error>
+                                </mat-form-field>
+                                <div class="actions">
+                                    <button class="btn-primary" type="submit" [disabled]="authForm.invalid">
+                                        <mat-icon>login</mat-icon>
+                                        {{ authMode==='login' ? 'Prijavi se' : 'Registruj se' }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <p class="privacy-note">
+                            Vaši podaci nikada se ne čuvaju u čistom tekstu.
+                        </p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
